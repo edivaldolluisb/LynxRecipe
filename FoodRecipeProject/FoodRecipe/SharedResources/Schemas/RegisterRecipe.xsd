@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd"
+	 xmlns:recipes="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3"
+	 xmlns:ns0="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4"
+	 xmlns:message="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd"
+	 xmlns:webscrap="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" schemaLocation="Recipes.xsd"/>
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4" schemaLocation="Erro.xsd"/>
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" schemaLocation="Message.xsd"/>
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" schemaLocation="webscrap.xsd"/>
+	<xs:element name="RecipeRegisterRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="recipes:recipes"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RecipeRegisterResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="message"/>
+				<xs:element ref="ns0:erro" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RecipeSearchRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="number" minOccurs="0"/>
+				<xs:element ref="filter" minOccurs="0"/>
+				<xs:element ref="query" minOccurs="0"/>
+				<xs:element ref="maxrow" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="number" type="xs:integer"/>
+	<xs:element name="filter" type="xs:string"/>
+	<xs:element name="RecipeSearchResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="recipes:recipes" minOccurs="0"/>
+				<xs:element ref="message" minOccurs="0"/>
+				<xs:element ref="webscrap:recipes" minOccurs="0"/>
+				<xs:element ref="message:message" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RecipeDeleteRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="number"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RecipeDeleteResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="message:message" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RecipeUpdateRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="recipes:recipe"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recipes" type="xs:string"/>
+	<xs:element name="RecipeUpdateResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="message:message"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="message" type="xs:string"/>
+	<xs:element name="query" type="xs:string"/>
+	<xs:element name="maxrow" type="xs:integer"/>
+</xs:schema>

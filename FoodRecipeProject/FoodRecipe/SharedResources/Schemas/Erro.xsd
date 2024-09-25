@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4"
+	 xmlns:message="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd"
+	 xmlns:recipes="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3"
+	 xmlns:ns0="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" schemaLocation="Message.xsd"/>
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" schemaLocation="Recipes.xsd"/>
+	<xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" schemaLocation="RegisterRecipe.xsd"/>
+	<xs:element name="erro">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="message:message"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

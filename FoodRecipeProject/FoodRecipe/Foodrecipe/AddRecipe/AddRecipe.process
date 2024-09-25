@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pd:name>Foodrecipe/AddRecipe/AddRecipe.process</pd:name>
+    <pd:description>Add a new recipe to the database</pd:description>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="input">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="RecipePreparation" type="xsd:string"/>
+                    <xsd:element name="RecipeIngredients" type="xsd:string"/>
+                    <xsd:element name="RecipeName" type="xsd:string"/>
+                    <xsd:element name="image_url" type="xsd:string"/>
+                    <xsd:element name="recipe_link" type="xsd:string"/>
+                    <xsd:element name="calories" type="xsd:string"/>
+                    <xsd:element name="dish_type" type="xsd:string"/>
+                    <xsd:element name="diet_type" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>74</pd:startX>
+    <pd:startY>124</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="$AddRecipe/jdbcUpdateActivityOutput/noOfUpdates > 0 or $AddRecipe/jdbcUpdateActivityOutput/noOfUpdates = 0">
+                <root>
+                    <sucess>
+                        <xsl:value-of select="1"/>
+                    </sucess>
+                    <code>
+                        <xsl:value-of select="200"/>
+                    </code>
+                    <param>
+                        <xsl:value-of select="'Recipe inserted'"/>
+                    </param>
+                </root>
+            </xsl:when>
+            <xsl:otherwise>
+                <root>
+                    <sucess>
+                        <xsl:value-of select="0"/>
+                    </sucess>
+                    <code>
+                        <xsl:value-of select="400"/>
+                    </code>
+                    <param>
+                        <xsl:value-of select="'Error on insert'"/>
+                    </param>
+                </root>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="sucess" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="code" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="param" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>746</pd:endX>
+    <pd:endY>124</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1722963177756</pd:targetNamespace>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.CriticalSectionGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>439</pd:x>
+        <pd:y>48</pd:y>
+        <pd:width>134</pd:width>
+        <pd:height>140</pd:height>
+        <pd:collapsedWidth>52</pd:collapsedWidth>
+        <pd:collapsedHeight>69</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <config>
+            <pd:groupType>criticalSection</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:scope>single</pd:scope>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>AddRecipe</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>AddRecipe</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="AddRecipe">
+            <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+            <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+            <pd:x>498</pd:x>
+            <pd:y>125</pd:y>
+            <config>
+                <timeout>10</timeout>
+                <commit>false</commit>
+                <emptyStrAsNil>false</emptyStrAsNil>
+                <statement>INSERT INTO RECIPE (recipe_name, ingredient, preparation, image_url, recipe_link , calories,dish_type, diet_type) VALUES 
+(?, ?, ?, ?, ?, ?, ?, ?); 
+</statement>
+                <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBCConnection.sharedjdbc</jdbcSharedConfig>
+                <Prepared_Param_DataType>
+                    <parameter>
+                        <parameterName>recipe_name</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>ingredient</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>preparation</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>image_url</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>recipe_link</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>calories</parameterName>
+                        <dataType>INTEGER</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>dish_type</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                    <parameter>
+                        <parameterName>diet_type</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                </Prepared_Param_DataType>
+            </config>
+            <pd:inputBindings>
+                <jdbcUpdateActivityInput>
+                    <recipe_name>
+                        <xsl:value-of select="$Parse-XML/recipe/name"/>
+                    </recipe_name>
+                    <ingredient>
+                        <xsl:value-of select="$Parse-XML/recipe/ingredients"/>
+                    </ingredient>
+                    <preparation>
+                        <xsl:value-of select="$Parse-XML/recipe/preparation"/>
+                    </preparation>
+                    <image_url>
+                        <xsl:value-of select="$Parse-XML/recipe/image_url"/>
+                    </image_url>
+                    <recipe_link>
+                        <xsl:value-of select="$Parse-XML/recipe/recipe_link"/>
+                    </recipe_link>
+                    <calories>
+                        <xsl:choose>
+                            <xsl:when test="exists($Parse-XML/recipe/calories)">
+                                <xsl:value-of select="$Parse-XML/recipe/calories"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </calories>
+                    <dish_type>
+                        <xsl:choose>
+                            <xsl:when test="exists($Parse-XML/recipe/dish_type)">
+                                <xsl:value-of select="$Parse-XML/recipe/dish_type"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </dish_type>
+                    <diet_type>
+                        <xsl:choose>
+                            <xsl:when test="exists($Parse-XML/recipe/diet_type)">
+                                <xsl:value-of select="$Parse-XML/recipe/diet_type"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </diet_type>
+                </jdbcUpdateActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>506</pd:x>
+        <pd:y>271</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="JSONtoXML">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>181</pd:x>
+        <pd:y>124</pd:y>
+        <config>
+            <fileName>AddRecipeJSONtoXML</fileName>
+            <packageName>Foodrecipe.AddRecipe.AddRecipe</packageName>
+            <fullsource>package Foodrecipe.AddRecipe.AddRecipe;
+import java.util.*;
+import java.io.*;
+public class AddRecipeJSONtoXML{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String name = "";
+	protected String ingredients = "";
+	protected String preparation = "";
+	protected String image_url = "";
+	protected String recipe_link = "";
+	protected String calories = "";
+	protected String dish_type = "";
+	protected String diet_type = "";
+	protected String XMLresult = "";
+	public String getname() {
+		return name;
+	}
+	public void setname(String val) {
+		name = val;
+	}
+	public String getingredients() {
+		return ingredients;
+	}
+	public void setingredients(String val) {
+		ingredients = val;
+	}
+	public String getpreparation() {
+		return preparation;
+	}
+	public void setpreparation(String val) {
+		preparation = val;
+	}
+	public String getimage_url() {
+		return image_url;
+	}
+	public void setimage_url(String val) {
+		image_url = val;
+	}
+	public String getrecipe_link() {
+		return recipe_link;
+	}
+	public void setrecipe_link(String val) {
+		recipe_link = val;
+	}
+	public String getcalories() {
+		return calories;
+	}
+	public void setcalories(String val) {
+		calories = val;
+	}
+	public String getdish_type() {
+		return dish_type;
+	}
+	public void setdish_type(String val) {
+		dish_type = val;
+	}
+	public String getdiet_type() {
+		return diet_type;
+	}
+	public void setdiet_type(String val) {
+		diet_type = val;
+	}
+	public String getXMLresult() {
+		return XMLresult;
+	}
+	public void setXMLresult(String val) {
+		XMLresult = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public AddRecipeJSONtoXML() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String name
+	In  : String ingredients
+	In  : String preparation
+	In  : String image_url
+	In  : String recipe_link
+	In  : String calories
+	In  : String dish_type
+	In  : String diet_type
+	Out : String XMLresult
+* Available Variables: DO NOT MODIFY *****/
+
+XMLresult = "&lt;recipe&gt;&lt;name&gt;"+name+"&lt;/name&gt;&lt;ingredients&gt;"+ingredients+"&lt;/ingredients&gt;&lt;preparation&gt;"+preparation+"&lt;/preparation&gt;&lt;image_url&gt;"+image_url+"&lt;/image_url&gt;&lt;recipe_link&gt;"+recipe_link+"&lt;/recipe_link&gt;&lt;calories&gt;"+calories+"&lt;/calories&gt;&lt;dish_type&gt;"+dish_type+"&lt;/dish_type&gt;&lt;diet_type&gt;"+diet_type+"&lt;/diet_type&gt;&lt;/recipe&gt;";}
+}
+</fullsource>
+            <outputData>
+                <row>
+                    <fieldName>XMLresult</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>required</fieldRequired>
+                </row>
+            </outputData>
+            <inputData>
+                <row>
+                    <fieldName>name</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>required</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>ingredients</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>preparation</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>image_url</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>recipe_link</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>calories</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>dish_type</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>diet_type</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </inputData>
+            <byteCode>
+                <class>
+                    <name>AddRecipeJSONtoXML</name>
+                    <byteCode>yv66vgAAADQAXwkAGQBCCQAZAEMJABkARAkAGQBFCQAZAEYJABkARwkAGQBICQAZAEkJABkASgoAGgBLCABMBwBNCgAMAEsIAE4KAAwATwgAUAgAUQgAUggAUwgAVAgAVQgAVggAVwoADABYBwBZBwBaAQAEbmFtZQEAEkxqYXZhL2xhbmcvU3RyaW5nOwEAC2luZ3JlZGllbnRzAQALcHJlcGFyYXRpb24BAAlpbWFnZV91cmwBAAtyZWNpcGVfbGluawEACGNhbG9yaWVzAQAJZGlzaF90eXBlAQAJZGlldF90eXBlAQAJWE1McmVzdWx0AQAHZ2V0bmFtZQEAFCgpTGphdmEvbGFuZy9TdHJpbmc7AQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEAB3NldG5hbWUBABUoTGphdmEvbGFuZy9TdHJpbmc7KVYBAA5nZXRpbmdyZWRpZW50cwEADnNldGluZ3JlZGllbnRzAQAOZ2V0cHJlcGFyYXRpb24BAA5zZXRwcmVwYXJhdGlvbgEADGdldGltYWdlX3VybAEADHNldGltYWdlX3VybAEADmdldHJlY2lwZV9saW5rAQAOc2V0cmVjaXBlX2xpbmsBAAtnZXRjYWxvcmllcwEAC3NldGNhbG9yaWVzAQAMZ2V0ZGlzaF90eXBlAQAMc2V0ZGlzaF90eXBlAQAMZ2V0ZGlldF90eXBlAQAMc2V0ZGlldF90eXBlAQAMZ2V0WE1McmVzdWx0AQAMc2V0WE1McmVzdWx0AQAGPGluaXQ+AQADKClWAQAGaW52b2tlAQAKRXhjZXB0aW9ucwcAWwEAClNvdXJjZUZpbGUBABdBZGRSZWNpcGVKU09OdG9YTUwuamF2YQwAGwAcDAAdABwMAB4AHAwAHwAcDAAgABwMACEAHAwAIgAcDAAjABwMACQAHAwAOwA8AQAAAQAXamF2YS9sYW5nL1N0cmluZ0J1aWxkZXIBAA48cmVjaXBlPjxuYW1lPgwAXABdAQAUPC9uYW1lPjxpbmdyZWRpZW50cz4BABs8L2luZ3JlZGllbnRzPjxwcmVwYXJhdGlvbj4BABk8L3ByZXBhcmF0aW9uPjxpbWFnZV91cmw+AQAZPC9pbWFnZV91cmw+PHJlY2lwZV9saW5rPgEAGDwvcmVjaXBlX2xpbms+PGNhbG9yaWVzPgEAFjwvY2Fsb3JpZXM+PGRpc2hfdHlwZT4BABc8L2Rpc2hfdHlwZT48ZGlldF90eXBlPgEAFTwvZGlldF90eXBlPjwvcmVjaXBlPgwAXgAmAQAxRm9vZHJlY2lwZS9BZGRSZWNpcGUvQWRkUmVjaXBlL0FkZFJlY2lwZUpTT050b1hNTAEAEGphdmEvbGFuZy9PYmplY3QBABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAGYXBwZW5kAQAtKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZ0J1aWxkZXI7AQAIdG9TdHJpbmcAIQAZABoAAAAJAAQAGwAcAAAABAAdABwAAAAEAB4AHAAAAAQAHwAcAAAABAAgABwAAAAEACEAHAAAAAQAIgAcAAAABAAjABwAAAAEACQAHAAAABQAAQAlACYAAQAnAAAAHQABAAEAAAAFKrQAAbAAAAABACgAAAAGAAEAAAAQAAEAKQAqAAEAJwAAACIAAgACAAAABiortQABsQAAAAEAKAAAAAoAAgAAABMABQAUAAEAKwAmAAEAJwAAAB0AAQABAAAABSq0AAKwAAAAAQAoAAAABgABAAAAFgABACwAKgABACcAAAAiAAIAAgAAAAYqK7UAArEAAAABACgAAAAKAAIAAAAZAAUAGgABAC0AJgABACcAAAAdAAEAAQAAAAUqtAADsAAAAAEAKAAAAAYAAQAAABwAAQAuACoAAQAnAAAAIgACAAIAAAAGKiu1AAOxAAAAAQAoAAAACgACAAAAHwAFACAAAQAvACYAAQAnAAAAHQABAAEAAAAFKrQABLAAAAABACgAAAAGAAEAAAAiAAEAMAAqAAEAJwAAACIAAgACAAAABiortQAEsQAAAAEAKAAAAAoAAgAAACUABQAmAAEAMQAmAAEAJwAAAB0AAQABAAAABSq0AAWwAAAAAQAoAAAABgABAAAAKAABADIAKgABACcAAAAiAAIAAgAAAAYqK7UABbEAAAABACgAAAAKAAIAAAArAAUALAABADMAJgABACcAAAAdAAEAAQAAAAUqtAAGsAAAAAEAKAAAAAYAAQAAAC4AAQA0ACoAAQAnAAAAIgACAAIAAAAGKiu1AAaxAAAAAQAoAAAACgACAAAAMQAFADIAAQA1ACYAAQAnAAAAHQABAAEAAAAFKrQAB7AAAAABACgAAAAGAAEAAAA0AAEANgAqAAEAJwAAACIAAgACAAAABiortQAHsQAAAAEAKAAAAAoAAgAAADcABQA4AAEANwAmAAEAJwAAAB0AAQABAAAABSq0AAiwAAAAAQAoAAAABgABAAAAOgABADgAKgABACcAAAAiAAIAAgAAAAYqK7UACLEAAAABACgAAAAKAAIAAAA9AAUAPgABADkAJgABACcAAAAdAAEAAQAAAAUqtAAJsAAAAAEAKAAAAAYAAQAAAEAAAQA6ACoAAQAnAAAAIgACAAIAAAAGKiu1AAmxAAAAAQAoAAAACgACAAAAQwAFAEQAAQA7ADwAAQAnAAAAewACAAEAAAA7KrcACioSC7UAASoSC7UAAioSC7UAAyoSC7UABCoSC7UABSoSC7UABioSC7UAByoSC7UACCoSC7UACbEAAAABACgAAAAuAAsAAABGAAQABgAKAAcAEAAIABYACQAcAAoAIgALACgADAAuAA0ANAAOADoARwABAD0APAACACcAAACMAAMAAQAAAHQquwAMWbcADRIOtgAPKrQAAbYADxIQtgAPKrQAArYADxIRtgAPKrQAA7YADxIStgAPKrQABLYADxITtgAPKrQABbYADxIUtgAPKrQABrYADxIVtgAPKrQAB7YADxIWtgAPKrQACLYADxIXtgAPtgAYtQAJsQAAAAEAKAAAAAYAAQAAAFUAPgAAAAQAAQA/AAEAQAAAAAIAQQ==</byteCode>
+                </class>
+            </byteCode>
+        </config>
+        <pd:inputBindings>
+            <javaCodeActivityInput>
+                <name>
+                    <xsl:value-of select="$Start/input/RecipeName"/>
+                </name>
+                <ingredients>
+                    <xsl:value-of select="$Start/input/RecipeIngredients"/>
+                </ingredients>
+                <preparation>
+                    <xsl:value-of select="$Start/input/RecipePreparation"/>
+                </preparation>
+                <image_url>
+                    <xsl:value-of select="$Start/input/image_url"/>
+                </image_url>
+                <recipe_link>
+                    <xsl:value-of select="$Start/input/recipe_link"/>
+                </recipe_link>
+                <calories>
+                    <xsl:value-of select="$Start/input/calories"/>
+                </calories>
+                <dish_type>
+                    <xsl:value-of select="$Start/input/dish_type"/>
+                </dish_type>
+                <diet_type>
+                    <xsl:value-of select="$Start/input/diet_type"/>
+                </diet_type>
+            </javaCodeActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>323</pd:x>
+        <pd:y>124</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term>
+                <xsd:element name="recipe">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="name" type="xsd:string"/>
+                            <xsd:element name="ingredients" type="xsd:string"/>
+                            <xsd:element name="preparation" type="xsd:string"/>
+                            <xsd:element name="image_url" type="xsd:string"/>
+                            <xsd:element name="recipe_link" type="xsd:string"/>
+                            <xsd:element name="calories" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="dish_type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="diet_type" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </term>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$JSONtoXML/javaCodeActivityOutput/XMLresult"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>JSONtoXML</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>JSONtoXML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

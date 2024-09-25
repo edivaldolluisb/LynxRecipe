@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:webscrap="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="recipes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="recipe" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="title" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="link" type="xs:string"/>
+							<xs:element name="image" type="xs:string"/>
+							<xs:element name="ingredients">
+								<xs:complexType mixed="true">
+									<xs:sequence>
+										<xs:element name="ingredient" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

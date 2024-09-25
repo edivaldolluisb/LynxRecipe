@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://lynxmind.com/foodrecipe" targetNamespace="http://lynxmind.com/foodrecipe" name="RecipeService">
+    <import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" location="../Schemas/RegisterRecipe.xsd"/>
+    <message name="RecipeRegisterRequest">
+        <part name="request" element="ns:RecipeRegisterRequest"/>
+    </message>
+    <message name="RecipeRegisterResponse">
+        <part name="response" element="ns:RecipeRegisterResponse"/>
+    </message>
+    <message name="RecipeSearchRequest">
+        <part name="request" element="ns:RecipeSearchRequest"/>
+    </message>
+    <message name="RecipeSearchResponse">
+        <part name="response" element="ns:RecipeSearchResponse"/>
+    </message>
+    <message name="RecipeDeleteRequest">
+        <part name="request" element="ns:RecipeDeleteRequest"/>
+    </message>
+    <message name="RecipeDeleteResponse">
+        <part name="response" element="ns:RecipeDeleteResponse"/>
+    </message>
+    <message name="RecipeUpdateResponse">
+        <part name="response" element="ns:RecipeUpdateResponse"/>
+    </message>
+    <message name="RecipeUpdateRequest">
+        <part name="request" element="ns:RecipeUpdateRequest"/>
+    </message>
+    <portType name="Recipes">
+        <operation name="RecipeSearch">
+            <input message="tns:RecipeSearchRequest"/>
+            <output message="tns:RecipeSearchResponse"/>
+        </operation>
+        <operation name="RecipeRegister">
+            <input message="tns:RecipeRegisterRequest"/>
+            <output message="tns:RecipeRegisterResponse"/>
+        </operation>
+        <operation name="RecipeDelete">
+            <input message="tns:RecipeDeleteRequest"/>
+            <output message="tns:RecipeDeleteResponse"/>
+        </operation>
+        <operation name="RecipeUpdate">
+            <input message="tns:RecipeUpdateRequest"/>
+            <output message="tns:RecipeUpdateResponse"/>
+        </operation>
+    </portType>
+</definitions>

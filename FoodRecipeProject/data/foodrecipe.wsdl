@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by TIBCO WSDL-->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.example.com/1724334958621" xmlns:ns0="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" xmlns:ns2="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" xmlns:ns1="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns4="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4" xmlns:ns3="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" name="Untitled" targetNamespace="http://xmlns.example.com/1724334958621">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:message="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:import namespace="http://www.w3.org/XML/1998/namespace"/>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="message">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="message:msg"/>
+                        <xs:element ref="message:code" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="msg" type="xs:string"/>
+        </xs:schema>
+        <xs:schema xmlns:webscrap="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:element name="recipes">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="recipe" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="title" type="xs:string"/>
+                                    <xs:element name="description" type="xs:string"/>
+                                    <xs:element name="link" type="xs:string"/>
+                                    <xs:element name="image" type="xs:string"/>
+                                    <xs:element name="ingredients">
+                                        <xs:complexType mixed="true">
+                                            <xs:sequence>
+                                                <xs:element name="ingredient" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema xmlns:recipes="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:element name="calories" type="xs:string"/>
+            <xs:element name="creation_date" type="xs:string"/>
+            <xs:element name="diet_type" type="xs:string"/>
+            <xs:element name="dish_type" type="xs:string"/>
+            <xs:element name="image_url" type="xs:string"/>
+            <xs:element name="ingredient" type="xs:string"/>
+            <xs:element name="preparation" type="xs:string"/>
+            <xs:element name="recipe">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="recipes:recipe_name"/>
+                        <xs:element ref="recipes:recipe_number" minOccurs="0"/>
+                        <xs:element ref="recipes:ingredient" minOccurs="0"/>
+                        <xs:element ref="recipes:preparation" minOccurs="0"/>
+                        <xs:element ref="recipes:creation_date" minOccurs="0"/>
+                        <xs:element ref="recipes:image_url" minOccurs="0"/>
+                        <xs:element ref="recipes:recipe_link" minOccurs="0"/>
+                        <xs:element ref="recipes:calories" minOccurs="0"/>
+                        <xs:element ref="recipes:dish_type" minOccurs="0"/>
+                        <xs:element ref="recipes:diet_type" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="recipe_link" type="xs:string"/>
+            <xs:element name="recipe_name" type="xs:string"/>
+            <xs:element name="recipe_number" type="xs:string"/>
+            <xs:element name="recipes">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="recipes:recipe" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema xmlns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" xmlns:recipes="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" xmlns:webscrap="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" xmlns:ns0="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:message="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3"/>
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4"/>
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd"/>
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd"/>
+            <xs:element name="RecipeDeleteRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="number"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeDeleteResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="message:message" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeRegisterRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="recipes:recipes"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeRegisterResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="message"/>
+                        <xs:element ref="ns0:erro" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeSearchRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="number" minOccurs="0"/>
+                        <xs:element ref="filter" minOccurs="0"/>
+                        <xs:element ref="query" minOccurs="0"/>
+                        <xs:element ref="maxrow" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeSearchResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="recipes:recipes" minOccurs="0"/>
+                        <xs:element ref="message" minOccurs="0"/>
+                        <xs:element ref="webscrap:recipes" minOccurs="0"/>
+                        <xs:element ref="message:message" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeUpdateRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="recipes:recipe"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RecipeUpdateResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="message:message"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="filter" type="xs:string"/>
+            <xs:element name="maxrow" type="xs:integer"/>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="number" type="xs:integer"/>
+            <xs:element name="query" type="xs:string"/>
+            <xs:element name="recipes" type="xs:string"/>
+        </xs:schema>
+        <xs:schema xmlns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4" xmlns:recipes="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:message="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd"/>
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3"/>
+            <xs:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd"/>
+            <xs:element name="erro">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="message:message"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/XML/1998/namespace" elementFormDefault="unqualified" attributeFormDefault="qualified">
+            <attribute name="base" type="anyURI"/>
+            <attribute name="id" type="ID"/>
+            <attribute name="lang">
+                <simpleType>
+                    <union memberTypes="language">
+                        <simpleType>
+                            <restriction base="string">
+                                <length value="0"/>
+                            </restriction>
+                        </simpleType>
+                    </union>
+                </simpleType>
+            </attribute>
+            <attribute name="space" default="preserve">
+                <simpleType>
+                    <restriction base="NCName">
+                        <enumeration value="default"/>
+                        <enumeration value="preserve"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup name="specialAttrs">
+                <attribute ref="xml:base"/>
+                <attribute ref="xml:id"/>
+                <attribute ref="xml:lang"/>
+                <attribute ref="xml:space" default="preserve"/>
+            </attributeGroup>
+        </schema>
+    </wsdl:types>
+    <wsdl:service name="RecipeService">
+        <wsdl:port name="Recipes" binding="tns:RecipesBinding">
+            <soap:address location="http://localhost:8080/SharedResources/Services/RecipeService/Recipes"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:portType name="Recipes">
+        <wsdl:operation name="RecipeUpdate">
+            <wsdl:input message="tns:RecipeUpdateRequest"/>
+            <wsdl:output message="tns:RecipeUpdateResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="RecipeSearch">
+            <wsdl:input message="tns:RecipeSearchRequest"/>
+            <wsdl:output message="tns:RecipeSearchResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="RecipeRegister">
+            <wsdl:input message="tns:RecipeRegisterRequest"/>
+            <wsdl:output message="tns:RecipeRegisterResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="RecipeDelete">
+            <wsdl:input message="tns:RecipeDeleteRequest"/>
+            <wsdl:output message="tns:RecipeDeleteResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="RecipesBinding" type="tns:Recipes">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="RecipeUpdate">
+            <soap:operation style="document" soapAction="/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeUpdate"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="request"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="response"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="RecipeSearch">
+            <soap:operation style="document" soapAction="/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeSearch"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="request"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="response"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="RecipeRegister">
+            <soap:operation style="document" soapAction="/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeRegister"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="request"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="response"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="RecipeDelete">
+            <soap:operation style="document" soapAction="/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeDelete"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="request"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="response"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:message name="RecipeUpdateRequest">
+        <wsdl:part name="request" element="ns0:RecipeUpdateRequest"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeUpdateResponse">
+        <wsdl:part name="response" element="ns0:RecipeUpdateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeSearchRequest">
+        <wsdl:part name="request" element="ns0:RecipeSearchRequest"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeSearchResponse">
+        <wsdl:part name="response" element="ns0:RecipeSearchResponse"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeRegisterRequest">
+        <wsdl:part name="request" element="ns0:RecipeRegisterRequest"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeRegisterResponse">
+        <wsdl:part name="response" element="ns0:RecipeRegisterResponse"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeDeleteRequest">
+        <wsdl:part name="request" element="ns0:RecipeDeleteRequest"/>
+    </wsdl:message>
+    <wsdl:message name="RecipeDeleteResponse">
+        <wsdl:part name="response" element="ns0:RecipeDeleteResponse"/>
+    </wsdl:message>
+</wsdl:definitions>

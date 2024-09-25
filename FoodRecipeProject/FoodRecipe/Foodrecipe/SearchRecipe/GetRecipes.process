@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>Foodrecipe/SearchRecipe/GetRecipes.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="RecipeNumber" type="xsd:int"/>
+    </pd:startType>
+    <pd:startX>150</pd:startX>
+    <pd:startY>63</pd:startY>
+    <pd:returnBindings>
+        <group>
+            <xsl:for-each select="$Get-Recipes/resultSet/Record">
+                <result>
+                    <recipeNumber>
+                        <xsl:value-of select="recipe_number"/>
+                    </recipeNumber>
+                    <recipeName>
+                        <xsl:value-of select="recipe_name"/>
+                    </recipeName>
+                    <ingredient>
+                        <xsl:value-of select="ingredient"/>
+                    </ingredient>
+                    <preparation>
+                        <xsl:value-of select="preparation"/>
+                    </preparation>
+                    <image_url>
+                        <xsl:value-of select="image_url"/>
+                    </image_url>
+                    <recipe_link>
+                        <xsl:value-of select="recipe_link"/>
+                    </recipe_link>
+                    <creation_date>
+                        <xsl:value-of select="creation_date"/>
+                    </creation_date>
+                    <calories>
+                        <xsl:value-of select="calories"/>
+                    </calories>
+                    <dish_type>
+                        <xsl:value-of select="dish_type"/>
+                    </dish_type>
+                    <diet_type>
+                        <xsl:value-of select="diet_type"/>
+                    </diet_type>
+                </result>
+            </xsl:for-each>
+            <xsl:choose>
+                <xsl:when test="not($Get-Recipes/resultSet/Record)">
+                    <msg>
+                        <microServiceType>
+                            <xsl:value-of select="'Get Single Recipe'"/>
+                        </microServiceType>
+                        <sucess>
+                            <xsl:value-of select="0"/>
+                        </sucess>
+                        <message>
+                            <xsl:value-of select="'Recipe not found'"/>
+                        </message>
+                    </msg>
+                </xsl:when>
+                <xsl:otherwise>
+                    <msg>
+                        <microServiceType>
+                            <xsl:value-of select="'Get Single Recipe'"/>
+                        </microServiceType>
+                        <sucess>
+                            <xsl:value-of select="1"/>
+                        </sucess>
+                        <message>
+                            <xsl:value-of select="'Recipe found'"/>
+                        </message>
+                    </msg>
+                </xsl:otherwise>
+            </xsl:choose>
+        </group>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="group">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="result" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="recipeNumber" type="xsd:int"/>
+                                <xsd:element name="recipeName" type="xsd:string"/>
+                                <xsd:element name="ingredient" type="xsd:string"/>
+                                <xsd:element name="preparation" type="xsd:string"/>
+                                <xsd:element name="image_url" type="xsd:string"/>
+                                <xsd:element name="recipe_link" type="xsd:string"/>
+                                <xsd:element name="creation_date" type="xsd:string"/>
+                                <xsd:element name="calories" type="xsd:string"/>
+                                <xsd:element name="dish_type" type="xsd:string"/>
+                                <xsd:element name="diet_type" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="msg">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="microServiceType" type="xsd:string"/>
+                                <xsd:element name="sucess" type="xsd:int" minOccurs="0"/>
+                                <xsd:element name="message" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>450</pd:endX>
+    <pd:endY>63</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1722457931971</pd:targetNamespace>
+    <pd:activity name="Get Recipes">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>280</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBCConnection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT recipe_number, recipe_name, ingredient, preparation, creation_date, image_url, recipe_link, calories,dish_type, diet_type  FROM RECIPE
+WHERE
+recipe_number=?;</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>RecipeNumber</parameterName>
+                    <dataType>INTEGER</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <oraObjects/>
+            <oraTables/>
+            <QueryOutputCachedSchemaColumns>recipe_number</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>4</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>INT</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>recipe_name</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ingredient</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>preparation</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>creation_date</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>TIMESTAMP</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>image_url</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>recipe_link</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>calories</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>4</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>INT</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>dish_type</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>1</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>CHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>diet_type</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>1</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>CHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <RecipeNumber>
+                    <xsl:value-of select="$Start/RecipeNumber"/>
+                </RecipeNumber>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>451</pd:x>
+        <pd:y>199</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Get Recipes</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Get Recipes</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

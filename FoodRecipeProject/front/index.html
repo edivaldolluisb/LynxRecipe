@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodRecipes</title>
+    <link rel="shortcut icon" href="images/icon/cooking.png">
+
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./css/alert.css">
+    <link rel="stylesheet" href="./css/mediaquery.css">
+    <link rel="stylesheet" href="./css/select.css">
+</head>
+
+<body>
+
+
+    <section id="home_section">
+        <header id="header">
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-hand-platter">
+                    <path d="M12 3V2" />
+                    <path d="M5 10a7.1 7.1 0 0 1 14 0" />
+                    <path d="M4 10h16" />
+                    <path d="M2 14h12a2 2 0 1 1 0 4h-2" />
+                    <path
+                        d="m15.4 17.4 3.2-2.8a2 2 0 0 1 2.8 2.9l-3.6 3.3c-.7.8-1.7 1.2-2.8 1.2h-4c-1.1 0-2.1-.4-2.8-1.2L5 18" />
+                    <path d="M5 14v7H2" />
+                </svg>
+            </h1>
+
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#recipes_list">Recipes</a></li>
+                </ul>
+            </nav>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-search">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                </svg>
+            </div>
+        </header>
+        <div>
+            <h1 id="home_title">
+                Delicious Food Recipes <br>
+                and Cooking Tips
+            </h1>
+            <p id="home_quote">
+                Food is a great way to bring people together. It´s more than just a meal, it´s a way to create memories
+                with
+                your family and friends. <br> The art of cooking is a great way to express yourself and show your love
+                to
+                others.
+            </p>
+
+            <a href="#recipe_section" id="explore_recipes_btn">
+                <span>Explore Recipes</span>
+                <svg width="34" height="34" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="37" cy="37" r="35.5" stroke="#0c3c3e" stroke-width="3" fill="#0c3c3e"></circle>
+                    <path
+                        d="M25 35.5C24.1716 35.5 23.5 36.1716 23.5 37C23.5 37.8284 24.1716 38.5 25 38.5V35.5ZM49.0607 38.0607C49.6464 37.4749 49.6464 36.5251 49.0607 35.9393L39.5147 26.3934C38.9289 25.8076 37.9792 25.8076 37.3934 26.3934C36.8076 26.9792 36.8076 27.9289 37.3934 28.5147L45.8787 37L37.3934 45.4853C36.8076 46.0711 36.8076 47.0208 37.3934 47.6066C37.9792 48.1924 38.9289 48.1924 39.5147 47.6066L49.0607 38.0607ZM25 38.5L48 38.5V35.5L25 35.5V38.5Z"
+                        fill="#f7f3ef"></path>
+                </svg>
+            </a>
+        </div>
+        <img class="backgroud_vector" src="./images/Vector 1.svg" alt="backgroud Vector">
+    </section>
+
+    <!-- <div class="form_select">
+        <div class="select">
+            <div id="category-select">
+                <label for="options-view-button">Categoria</label>
+                <input type="checkbox" id="options-view-button">
+                
+                <div id="select-button">
+                    <div id="selected-value">Select the dish</div>
+                    <div id="chevrons">
+                        <i data-lucide="chevron-down"></i>
+                        <i data-lucide="chevron-up"></i>
+                    </div>
+                </div>
+            </div>
+            <ul id="options">
+                <li class="option">
+                    <input type="radio" 
+                        name="category" 
+                        value="bakery" 
+                        data-label="Padaria"
+                    >
+                    <i data-lucide="sandwich"></i>
+                    <span class="label">Padaria</span>
+                    <i data-lucide="check"></i>
+                </li>
+                <li class="option">
+                    <input type="radio" 
+                        name="category" 
+                        value="fruit" 
+                        data-label="Fruta"
+                    >
+                    <i data-lucide="apple"></i>
+                    <span class="label">Fruta</span>
+                    <i data-lucide="check"></i>
+                </li>
+                <li class="option">
+                    <input type="radio" 
+                        name="category" 
+                        value="meat" 
+                        data-label="Carne"
+                    >
+                    <i data-lucide="beef"></i>
+                    <span class="label">Carne</span>
+                    <i data-lucide="check"></i>
+                </li>
+                <li class="option">
+                    <input type="radio" 
+                        name="category" 
+                        value="carrot" 
+                        data-label="Legume"
+                    >
+                    <i data-lucide="carrot"></i>
+                    <span class="label">Legume</span>
+                    <i data-lucide="check"></i>
+                </li>
+            </ul>
+        </div>
+    </div> -->
+
+    <section id="recipe_section">
+        <form id="search_container" class="search_recipes_btn">
+            <input type="text" name="search_recipe" id="search_field" placeholder="Search for recipe">
+            <button type="submit" id="search_submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-send-horizontal">
+                    <path d="m3 3 3 9-3 9 19-9Z" />
+                    <path d="M6 12h16" />
+                </svg>
+            </button>
+            <select id="filter" name="filter">
+                <option value="name">Search by recipe name</option>
+                <option value="web">Search in web</option>
+                <option value="max_creation_date">Maximum creation date</option>
+                <option value="max_recipe_number">Maximum recipe number</option>
+                <option value="min_creation_date">Minimum creation date</option>
+                <option value="min_recipe_number">Minimum recipe number</option>
+                <option value="ingredient">Search by ingredient</option>
+                <option value="preparation">Search by preparation</option>
+            </select>
+        </form>
+
+        <button id="open_add_recipe">
+            <span>Add a new recipe</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-file-plus-2">
+                <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M3 15h6" />
+                <path d="M6 12v6" />
+            </svg>
+        </button>
+
+        <!-- List my recipes -->
+        <section id="recipes_list">
+            <!-- <div class="recipe">
+                <div class="recipe_image">
+                    <span>412</span>
+                    <img src="./images/charlesdeluvio.jpg" alt="food">
+                </div>
+                <h2>
+                    Lorem ipsum dolor sit amet consectetur
+                </h2>
+                <div><span>fire: 100</span><span>Main dish</span><span>Vegetarian</span></div>
+                <button type="button" class="open_recipe" data-recipe-id="1">
+                    See recipe
+                </button>
+
+            </div> -->
+        </section>
+
+    </section>
+
+    <section class="see_recipe">
+        <button type="button" class="close_see_recipe">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-x">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+            </svg>
+        </button>
+        <div class="recipe_container">
+            <div id="recipe_image">
+                <img src="./images/charlesdeluvio.jpg" alt="food">
+            </div>
+            <form id="recipe_info">
+                <label for="recipe_name">Recipe Name</label>
+                <input type="text" name="recipe_name" id="recipe_name" placeholder="Recipe Name" required>
+                <label for="recipe_ingredients">Recipe Ingredients</label>
+                <textarea name="recipe_ingredients" id="recipe_ingredients" placeholder="Recipe Ingredients"></textarea>
+                <label for="recipe_instructions">Recipe Instructions</label>
+                <textarea name="recipe_instructions" id="recipe_instructions"
+                    placeholder="Recipe Instructions"></textarea>
+                <label for="recipe_image_url">Recipe Image URL</label>
+                <input type="url" name="recipe_image_url" id="recipe_image_url" placeholder="Recipe Image URL">
+                <label for="recipe_url">Recipe URL</label>
+                <input type="url" name="recipe_url" id="recipe_url" placeholder="Recipe URL">
+                <label for="recipe_calorie">Calories</label>
+                <input type="number" min="0" value="0" name="recipe_calorie" id="recipe_calorie" placeholder="Recipe Calorie">
+
+                <div class="form_select">
+                    <div class="select">
+                        <div id="category-select">
+                            <label for="options-view-button">Diet Type</label>
+                            <input type="checkbox" id="options-view-button">
+                            
+                            <div id="select-button">
+                                <div id="selected-value">Select the dish</div>
+                                <div id="chevrons">
+                                    <i data-lucide="chevron-down"></i>
+                                    <i data-lucide="chevron-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul id="options">
+                            <li class="option">
+                                <input type="radio" 
+                                    name="category" 
+                                    value="Fish" 
+                                    data-label="Fish"
+                                >
+                                <i data-lucide="fish"></i>
+                                <span class="label">Fish</span>
+                                <i data-lucide="check"></i>
+                            </li>
+                            <li class="option">
+                                <input type="radio" 
+                                    name="category" 
+                                    value="Meat" 
+                                    data-label="Meat"
+                                    
+                                >
+                                <i data-lucide="beef"></i>
+                                <span class="label">Meat</span>
+                                <i data-lucide="check"></i>
+                            </li>
+                            <li class="option">
+                                <input type="radio" 
+                                    name="category" 
+                                    value="Vegan" 
+                                    data-label="Vegan"
+                                >
+                                <i data-lucide="fish"></i>
+                                <span class="label">Vegan</span>
+                                <i data-lucide="check"></i>
+                            </li>
+                            <li class="option">
+                                <input type="radio" 
+                                    name="category" 
+                                    value="Vegetarian" 
+                                    data-label="Vegetarian"
+                                >
+                                <i data-lucide="egg"></i>
+                                <span class="label">Vegetarian</span>
+                                <i data-lucide="check"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="radio">
+                        <label for="main_dish">Dish type</label>                           
+                        <ul id="diet_options">
+                                <li class="diet_option">
+                                    <input type="radio" 
+                                        name="diet" 
+                                        value="1" 
+                                        data-label="Starter"
+                                    >
+                                    <i data-lucide="soup"></i>
+                                    <span class="diet-label">Starter</span>
+                                    <i data-lucide="check"></i>
+                                </li>
+                                <li class="diet_option">
+                                    <input type="radio" 
+                                        name="diet" 
+                                        value="2" 
+                                        data-label="Main"
+                                        checked
+                                        id="main_dish"
+                                    >
+                                    <i data-lucide="utensils"></i>
+                                    <span class="diet-label">Main dish</span>
+                                    <i data-lucide="check"></i>
+                                </li>
+                                <li class="diet_option">
+                                    <input type="radio" 
+                                        name="diet" 
+                                        value="3" 
+                                        data-label="Dessert"
+                                    >
+                                    <i data-lucide="dessert"></i>
+                                    <span class="diet-label">Dessert</span>
+                                    <i data-lucide="check"></i>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form_buttons">
+                    <button type="submit" id="register_button">
+                        Save Recipe
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-chef-hat">
+                            <path
+                                d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z" />
+                            <path d="M6 17h12" />
+                        </svg>
+                    </button>
+                    <button type="submit" id="update_button">
+                        Update Recipe
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-cooking-pot">
+                            <path d="M2 12h20" />
+                            <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" />
+                            <path d="m4 8 16-4" />
+                            <path d="m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8" />
+                        </svg>
+                    </button>
+                    <button type="submit" id="delete_button">
+                        Delete Recipe
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-trash-2">
+                            <path d="M3 6h18" />
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                            <line x1="10" x2="10" y1="11" y2="17" />
+                            <line x1="14" x2="14" y1="11" y2="17" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+    <!-- alert container -->
+    <div id="alert-container" class="hidden">
+        <div id="alert" class="alert">
+            <span id="alert-message"></span>
+            <button class="close-alert">&times;</button>
+        </div>
+    </div>
+
+
+    <script type="module" src="./js/list_recipe.js"></script>
+    <script src="./js/see_recipe.js"></script>
+    <!-- Production version -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="./js/selects.js"></script>
+</body>
+
+</html>

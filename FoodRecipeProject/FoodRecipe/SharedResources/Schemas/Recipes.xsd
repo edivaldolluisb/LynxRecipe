@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns:recipes="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3"
+	 targetNamespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="recipe">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="recipes:recipe_name"/>
+				<xs:element ref="recipes:recipe_number" minOccurs="0"/>
+				<xs:element ref="recipes:ingredient" minOccurs="0"/>
+				<xs:element ref="recipes:preparation" minOccurs="0"/>
+				<xs:element ref="recipes:creation_date" minOccurs="0"/>
+				<xs:element ref="recipes:image_url" minOccurs="0"/>
+				<xs:element ref="recipes:recipe_link" minOccurs="0"/>
+				<xs:element ref="recipes:calories" minOccurs="0"/>
+				<xs:element ref="recipes:dish_type" minOccurs="0"/>
+				<xs:element ref="recipes:diet_type" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recipe_name" type="xs:string"/>
+	<xs:element name="recipe_number" type="xs:string"/>
+	<xs:element name="ingredient" type="xs:string"/>
+	<xs:element name="preparation" type="xs:string"/>
+	<xs:element name="creation_date" type="xs:string"/>
+	<xs:element name="recipes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="recipes:recipe" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="image_url" type="xs:string"/>
+	<xs:element name="recipe_link" type="xs:string"/>
+	<xs:element name="calories" type="xs:string"/>
+	<xs:element name="dish_type" type="xs:string"/>
+	<xs:element name="diet_type" type="xs:string"/>
+</xs:schema>

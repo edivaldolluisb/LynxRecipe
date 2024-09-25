@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" xmlns:wsdlPfx="http://lynxmind.com/foodrecipe" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/erro.xsd4" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns3="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd">
+    <wsdl:import namespace="http://lynxmind.com/foodrecipe" location="/SharedResources/WSDL/RecipeService.wsdl"/>
+    <pd:name>SharedResources/Services/RecipesRecipeDelete.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="wsdlPfx:RecipeDeleteRequest"/>
+    <pd:startX>158</pd:startX>
+    <pd:startY>62</pd:startY>
+    <pd:returnBindings>
+        <wsdlPfx:RecipeDeleteResponse>
+            <response>
+                <ns:RecipeDeleteResponse>
+                    <xsl:choose>
+                        <xsl:when test="$DeleteRecipe/result/code = 200">
+                            <ns3:message>
+                                <ns3:msg>
+                                    <xsl:value-of select="$DeleteRecipe/result/message"/>
+                                </ns3:msg>
+                                <ns3:code>
+                                    <xsl:value-of select="200"/>
+                                </ns3:code>
+                            </ns3:message>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <ns3:message>
+                                <ns3:msg>
+                                    <xsl:value-of select="'Error deleting, verify parameter'"/>
+                                </ns3:msg>
+                                <ns3:code>
+                                    <xsl:value-of select="400"/>
+                                </ns3:code>
+                            </ns3:message>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </ns:RecipeDeleteResponse>
+            </response>
+        </wsdlPfx:RecipeDeleteResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="wsdlPfx:RecipeDeleteResponse"/>
+    <pd:endX>623</pd:endX>
+    <pd:endY>68</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1724334958746</pd:targetNamespace>
+    <pd:activity name="DeleteRecipe">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>294</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/Foodrecipe/DeleteRecipe/DeleteRecipe.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <RecipeNumber>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeDeleteRequest/request/ns:RecipeDeleteRequest/ns:number"/>
+                </RecipeNumber>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>446</pd:x>
+        <pd:y>216</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Request_Log">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>444</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <processName>/Foodrecipe/Request_Log/Request_Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <LogInput>
+                <action_type>
+                    <xsl:value-of select="'delete recipe'"/>
+                </action_type>
+                <success>
+                    <xsl:value-of select="1"/>
+                </success>
+                <response_message>
+                    <xsl:value-of select="concat($DeleteRecipe/result/code, $DeleteRecipe/result/message)"/>
+                </response_message>
+            </LogInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Request_Log-1">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>621</pd:x>
+        <pd:y>216</pd:y>
+        <config>
+            <processName>/Foodrecipe/Request_Log/Request_Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <LogInput>
+                <action_type>
+                    <xsl:value-of select="'delete recipe'"/>
+                </action_type>
+                <success>
+                    <xsl:value-of select="0"/>
+                </success>
+                <response_message>
+                    <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                </response_message>
+            </LogInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>DeleteRecipe</pd:to>
+        <pd:xpathDescription>IsNumber</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/wsdlPfx:RecipeDeleteRequest/request/ns:RecipeDeleteRequest/ns:number  &gt; 0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>DeleteRecipe</pd:from>
+        <pd:to>Request_Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Request_Log</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Request_Log-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Request_Log-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

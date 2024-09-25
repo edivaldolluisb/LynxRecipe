@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd" xmlns:wsdlPfx="http://lynxmind.com/foodrecipe" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="web" xmlns:ns4="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" xmlns:ns3="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/web.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns6="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" xmlns:ns5="http://www.tibco.com/pe/EngineTypes" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns7="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003">
+    <wsdl:import namespace="http://lynxmind.com/foodrecipe" location="/SharedResources/WSDL/RecipeService.wsdl"/>
+    <pd:name>SharedResources/Services/RecipesRecipeSearch.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="wsdlPfx:RecipeSearchRequest"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <wsdlPfx:RecipeSearchResponse>
+            <response>
+                <xsl:choose>
+                    <xsl:when test="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter = &quot;web&quot;">
+                        <ns:RecipeSearchResponse>
+                            <ns4:recipes>
+                                <xsl:copy-of select="$SearchWeb/output/ns4:recipes/ns4:recipe"/>
+                            </ns4:recipes>
+                        </ns:RecipeSearchResponse>
+                    </xsl:when>
+                    <xsl:when test="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter = &quot;single&quot;">
+                        <ns:RecipeSearchResponse>
+                            <ns2:recipes>
+                                <xsl:for-each select="$GetRecipe/group/result">
+                                    <ns2:recipe>
+                                        <ns2:recipe_name>
+                                            <xsl:value-of select="recipeName"/>
+                                        </ns2:recipe_name>
+                                        <ns2:recipe_number>
+                                            <xsl:value-of select="recipeNumber"/>
+                                        </ns2:recipe_number>
+                                        <ns2:ingredient>
+                                            <xsl:value-of select="ingredient"/>
+                                        </ns2:ingredient>
+                                        <ns2:preparation>
+                                            <xsl:value-of select="preparation"/>
+                                        </ns2:preparation>
+                                        <ns2:creation_date>
+                                            <xsl:value-of select="creation_date"/>
+                                        </ns2:creation_date>
+                                        <ns2:image_url>
+                                            <xsl:value-of select="image_url"/>
+                                        </ns2:image_url>
+                                        <ns2:recipe_link>
+                                            <xsl:value-of select="recipe_link"/>
+                                        </ns2:recipe_link>
+                                        <ns2:calories>
+                                            <xsl:value-of select="calories"/>
+                                        </ns2:calories>
+                                        <ns2:dish_type>
+                                            <xsl:value-of select="dish_type"/>
+                                        </ns2:dish_type>
+                                        <ns2:diet_type>
+                                            <xsl:value-of select="diet_type"/>
+                                        </ns2:diet_type>
+                                    </ns2:recipe>
+                                </xsl:for-each>
+                            </ns2:recipes>
+                            <xsl:if test="$GetRecipe/group/msg/message">
+                                <ns:message>
+                                    <xsl:value-of select="$GetRecipe/group/msg/message"/>
+                                </ns:message>
+                            </xsl:if>
+                            <ns6:message>
+                                <ns6:msg>
+                                    <xsl:value-of select="$GetRecipe/group/msg/message"/>
+                                </ns6:msg>
+                                <xsl:if test="$GetRecipe/group/msg/sucess">
+                                    <ns6:code>
+                                        <xsl:value-of select="$GetRecipe/group/msg/sucess"/>
+                                    </ns6:code>
+                                </xsl:if>
+                            </ns6:message>
+                        </ns:RecipeSearchResponse>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <ns:RecipeSearchResponse>
+                            <ns2:recipes>
+                                <xsl:copy-of select="$GetRecipesAll/group/ns2:recipes/ns2:recipe"/>
+                            </ns2:recipes>
+                        </ns:RecipeSearchResponse>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </response>
+        </wsdlPfx:RecipeSearchResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="wsdlPfx:RecipeSearchResponse"/>
+    <pd:endX>839</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables>
+        <request-log>
+            <xsd:element name="LogInput">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="action_type" type="xsd:string"/>
+                        <xsd:element name="success" type="xsd:string"/>
+                        <xsd:element name="request_date" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="response_date" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="response_message" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </request-log>
+    </pd:processVariables>
+    <pd:targetNamespace>http://xmlns.example.com/1724334958632</pd:targetNamespace>
+    <pd:activity name="GetRecipe">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>371</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/Foodrecipe/SearchRecipe/GetRecipes.process</processName>
+        </config>
+        <pd:inputBindings>
+            <RecipeNumber>
+                <xsl:value-of select="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:number"/>
+            </RecipeNumber>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetRecipesAll">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>383</pd:x>
+        <pd:y>247</pd:y>
+        <config>
+            <processName>/Foodrecipe/SearchRecipe/GetRecipesAll.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:if test="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:maxrow">
+                    <maxRows>
+                        <xsl:value-of select="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:maxrow"/>
+                    </maxRows>
+                </xsl:if>
+                <xsl:if test="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter">
+                    <filter>
+                        <xsl:value-of select="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter"/>
+                    </filter>
+                </xsl:if>
+                <xsl:if test="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:query">
+                    <query>
+                        <xsl:value-of select="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:query"/>
+                    </query>
+                </xsl:if>
+                <xsl:if test="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:number">
+                    <number>
+                        <xsl:value-of select="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:number"/>
+                    </number>
+                </xsl:if>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Request_Log">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>655</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/Foodrecipe/Request_Log/Request_Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$request-log/LogInput"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SearchWeb">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>380</pd:x>
+        <pd:y>147</pd:y>
+        <config>
+            <processName>/Foodrecipe/SearchWeb/SearchWeb.process</processName>
+        </config>
+        <pd:inputBindings>
+            <input>
+                <search_term>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:query"/>
+                </search_term>
+            </input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>465</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <variableName>request-log</variableName>
+        </config>
+        <pd:inputBindings>
+            <LogInput>
+                <action_type>
+                    <xsl:value-of select="$GetRecipe/group/msg/microServiceType"/>
+                </action_type>
+                <success>
+                    <xsl:value-of select="$GetRecipe/group/msg/sucess"/>
+                </success>
+                <response_message>
+                    <xsl:value-of select="concat($GetRecipe/group/msg/message, 'recipe number: ', $Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:number)"/>
+                </response_message>
+            </LogInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign-1">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>543</pd:x>
+        <pd:y>129</pd:y>
+        <config>
+            <variableName>request-log</variableName>
+        </config>
+        <pd:inputBindings>
+            <LogInput>
+                <action_type>
+                    <xsl:value-of select="$SearchWeb/output/message/microServiceType"/>
+                </action_type>
+                <success>
+                    <xsl:value-of select="$SearchWeb/output/message/sucess"/>
+                </success>
+                <response_message>
+                    <xsl:value-of select="concat($SearchWeb/output/message/message, ':  ', tib:render-xml($SearchWeb/output/ns4:recipes))"/>
+                </response_message>
+            </LogInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign-2">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>530</pd:x>
+        <pd:y>244</pd:y>
+        <config>
+            <variableName>request-log</variableName>
+        </config>
+        <pd:inputBindings>
+            <LogInput>
+                <action_type>
+                    <xsl:value-of select="$GetRecipesAll/group/error/microServiceType"/>
+                </action_type>
+                <success>
+                    <xsl:value-of select="$GetRecipesAll/group/error/sucess"/>
+                </success>
+                <response_message>
+                    <xsl:value-of select="concat($GetRecipesAll/group/error/message, 'filter: ', $Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter, '  result : ' , tib:render-xml($GetRecipesAll))"/>
+                </response_message>
+            </LogInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetRecipe</pd:to>
+        <pd:xpathDescription>single search</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter = "single" and exists($Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:number)</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetRecipe</pd:from>
+        <pd:to>Assign</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SearchWeb</pd:to>
+        <pd:xpathDescription>search web</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/wsdlPfx:RecipeSearchRequest/request/ns:RecipeSearchRequest/ns:filter ="web"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SearchWeb</pd:from>
+        <pd:to>Assign-1</pd:to>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetRecipesAll</pd:to>
+        <pd:xpathDescription>filtered search</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetRecipesAll</pd:from>
+        <pd:to>Assign-2</pd:to>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Request_Log</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign</pd:from>
+        <pd:to>Request_Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign-1</pd:from>
+        <pd:to>Request_Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign-2</pd:from>
+        <pd:to>Request_Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

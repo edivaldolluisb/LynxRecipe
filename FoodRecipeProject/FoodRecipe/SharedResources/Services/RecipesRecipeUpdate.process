@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/recipes.xsd3" xmlns:wsdlPfx="http://lynxmind.com/foodrecipe" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/Message.xsd" xmlns:ns1="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/RegisterRecipe.xsd">
+    <wsdl:import namespace="http://lynxmind.com/foodrecipe" location="/SharedResources/WSDL/RecipeService.wsdl"/>
+    <pd:name>SharedResources/Services/RecipesRecipeUpdate.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="wsdlPfx:RecipeUpdateRequest"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>65</pd:startY>
+    <pd:returnBindings>
+        <wsdlPfx:RecipeUpdateResponse>
+            <response>
+                <ns1:RecipeUpdateResponse>
+                    <ns2:message>
+                        <ns2:msg>
+                            <xsl:value-of select="$UpdateRecipe/output/message"/>
+                        </ns2:msg>
+                        <ns2:code>
+                            <xsl:value-of select="$UpdateRecipe/output/code"/>
+                        </ns2:code>
+                    </ns2:message>
+                </ns1:RecipeUpdateResponse>
+            </response>
+        </wsdlPfx:RecipeUpdateResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="wsdlPfx:RecipeUpdateResponse"/>
+    <pd:endX>583</pd:endX>
+    <pd:endY>68</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1724334958773</pd:targetNamespace>
+    <pd:activity name="UpdateRecipe">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>274</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <processName>/Foodrecipe/UpdateRecipe/UpdateRecipe.process</processName>
+        </config>
+        <pd:inputBindings>
+            <input>
+                <number>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:recipe_number"/>
+                </number>
+                <name>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:recipe_name"/>
+                </name>
+                <ingredient>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:ingredient"/>
+                </ingredient>
+                <preparation>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:preparation"/>
+                </preparation>
+                <image_url>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:image_url"/>
+                </image_url>
+                <recipe_link>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:recipe_link"/>
+                </recipe_link>
+                <calories>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:calories"/>
+                </calories>
+                <dish_type>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:dish_type"/>
+                </dish_type>
+                <diet_type>
+                    <xsl:value-of select="$Start/wsdlPfx:RecipeUpdateRequest/request/ns1:RecipeUpdateRequest/ns:recipe/ns:diet_type"/>
+                </diet_type>
+            </input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Request_Log">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>448</pd:x>
+        <pd:y>68</pd:y>
+        <config>
+            <processName>/Foodrecipe/Request_Log/Request_Log.process</processName>
+        </config>
+        <pd:inputBindings>
+            <LogInput>
+                <action_type>
+                    <xsl:value-of select="'Update Recipe'"/>
+                </action_type>
+                <success>
+                    <xsl:value-of select="$UpdateRecipe/output/sucess"/>
+                </success>
+                <response_message>
+                    <xsl:value-of select="$UpdateRecipe/output/message"/>
+                </response_message>
+            </LogInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>UpdateRecipe</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>UpdateRecipe</pd:from>
+        <pd:to>Request_Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Request_Log</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceResource xmlns:wsdl="http://lynxmind.com/foodrecipe">
+    <ns0:import xmlns:ns0="http://schemas.xmlsoap.org/wsdl/" namespace="http://lynxmind.com/foodrecipe" location="/SharedResources/WSDL/RecipeService.wsdl"/>
+    <config>
+        <wsdl namespace="http://xmlns.example.com/1724334958621" embedWsdlComponents="true" embedSchemaComponents="true" embedJndiProperties="false"/>
+        <class>com.tibco.bw.service.serviceAgent.ServiceServiceAgent</class>
+        <name>RecipeService</name>
+        <resourceType>service.definition</resourceType>
+        <implType>bw</implType>
+        <groups>
+            <row isDefault="true" groupName="Default"/>
+        </groups>
+        <serviceChange>Thu Aug 22 15:05:09 BST 2024</serviceChange>
+        <interfaceImpl>
+            <tab>
+                <tabName>Recipes</tabName>
+                <tabType>bw</tabType>
+                <config>
+                    <wsdlDetail location="/SharedResources/WSDL/RecipeService.wsdl" portType="Recipes" ns="http://lynxmind.com/foodrecipe"/>
+                    <detail>
+                        <tab>
+                            <tabName>service.definition.impl.tab.label</tabName>
+                            <tabType>impl</tabType>
+                            <config>
+                                <operations>
+                                    <row opName="RecipeSearch" opImpl="/SharedResources/Services/RecipesRecipeSearch.process"/>
+                                    <row opName="RecipeRegister" opImpl="/SharedResources/Services/RecipesRecipeRegister.process"/>
+                                    <row opName="RecipeDelete" opImpl="/SharedResources/Services/RecipesRecipeDelete.process"/>
+                                    <row opName="RecipeUpdate" opImpl="/SharedResources/Services/RecipesRecipeUpdate.process"/>
+                                </operations>
+                            </config>
+                        </tab>
+                        <tab>
+                            <tabName>service.definition.ep.tab.label</tabName>
+                            <tabType>ep</tabType>
+                            <config>
+                                <epBindings>
+                                    <row epName="Recipes" epType="soap">
+                                        <config>
+                                            <epDetail>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.transport.tab.label</tabName>
+                                                    <tabType>transport</tabType>
+                                                    <config>
+                                                        <sharedChannel>/SharedResources/Connections/HTTP/HTTP Connection.sharedhttp</sharedChannel>
+                                                        <transport>
+                                                            <config>
+                                                                <useBasicAuthentication>false</useBasicAuthentication>
+                                                                <httpURI>/SharedResources/Services/RecipeService/Recipes</httpURI>
+                                                            </config>
+                                                        </transport>
+                                                    </config>
+                                                </tab>
+                                                <tab>
+                                                    <tabName>soap.service.transport.ui.details.tab.label</tabName>
+                                                    <tabType>details</tabType>
+                                                    <config>
+                                                        <operationStyle>document</operationStyle>
+                                                        <soapVersion>SOAP 1.1</soapVersion>
+                                                        <soap>
+                                                            <operation name="RecipeSearch">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeSearch</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                            <operation name="RecipeRegister">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeRegister</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                            <operation name="RecipeDelete">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeDelete</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                            <operation name="RecipeUpdate">
+                                                                <general>
+                                                                    <config>
+                                                                        <soapAction>/SharedResources/Services/RecipeService.serviceagent/Recipes/RecipeUpdate</soapAction>
+                                                                        <operationStyle/>
+                                                                        <soapUse>literal</soapUse>
+                                                                        <inputNamespace/>
+                                                                        <outputNamespace/>
+                                                                        <faultNamespace/>
+                                                                        <portAddressPrefix/>
+                                                                    </config>
+                                                                </general>
+                                                            </operation>
+                                                        </soap>
+                                                    </config>
+                                                </tab>
+                                            </epDetail>
+                                        </config>
+                                    </row>
+                                </epBindings>
+                            </config>
+                        </tab>
+                    </detail>
+                </config>
+            </tab>
+        </interfaceImpl>
+    </config>
+</serviceResource>

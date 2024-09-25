@@ -1,0 +1,251 @@
+:root{
+    background-color: #F68E5F;
+    color: #EDEAF0;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -ms-text-size-adjust: 100%;
+
+    --dark-text-color: #324b50;
+    --light-text-color: #f1f1e6;
+    --select-button: #1C464F;
+    --select-button-hover: #FF8360;
+    --select-border-color: #faf4d3;
+    --primary-two: #f1f1e6;
+}
+
+.select{
+    padding: auto;
+}
+
+/* #category-select label {
+    font-size: .75rem;
+    letter-spacing: .0225rem;
+} */
+
+#select-button{
+    margin-top: .5rem;
+    display: flex;
+    padding: .75rem;
+    align-items: center;
+    justify-content: space-between;
+
+    border-radius: .375rem;
+    border:1px solid var(--select-border-color);
+    background-color: var(--select-button);
+}
+
+#selected-value{
+    color: var(--light-text-color);
+    font-size: .875rem;
+    letter-spacing: .02625rem;
+}
+
+#chevrons svg {
+    width: 1rem;
+    height: 1rem;
+}
+#chevrons {
+    color: var(--light-text-color);
+}
+
+#chevrons [data-lucide="chevron-up"] {
+    display: none;
+}
+
+
+#options-view-button:focus + #select-button, 
+#options-view-button:checked + #selected-button {
+    outline: 1px solid var(--select-border-color);
+}
+
+/* #category-select:has(#options-view-button:checked) label,
+#options-view-button:checked + #select-button #chevrons {
+    color: #A881E6;
+} */
+
+#options-view-button:checked + #select-button #chevrons[data-lucide="chevron-down"]{
+    display: none;
+}
+
+#options-view-button:checked + #select-button #chevrons[data-lucide="chevron-up"]{
+    display: block;
+}
+
+#category-select {
+    position: relative;
+}
+
+#options-view-button {
+    all: unset;
+    position: absolute;
+    inset: 0;
+
+    cursor: pointer;
+    z-index: 3;
+
+}
+
+#options {
+    margin-top: .25rem;
+    border-radius: .375rem;
+    border: 1px solid var(--select-button);
+    background: var(--select-button);
+
+    display: none;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    padding: .75rem;
+    /* width: 100%; */
+    border-bottom: 1px solid var(--select-button);
+
+    position: relative;
+}
+
+.option .label {
+    color: var(--light-text-color);
+}
+
+.option svg {
+    width: 1rem;
+    height: 1rem;
+}
+.option svg:last-child {
+    margin-left: auto;
+    color: var(--light-text-color);
+    display: none;
+}
+
+.option:has(input:checked),
+.option:hover {
+    border-bottom: 1px solid var(--select-button-hover);
+    background-color: var(--select-button-hover);
+}
+.option:has(input:focus) {
+    outline: 1px solid var(--select-button-hover);
+}
+
+.option:has(input:checked) [data-lucide="check"]{
+    display: block;
+}
+
+.option input[type="radio"]{
+    all: unset;
+
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+}
+
+.option:nth-child(1) {
+    color: var(--light-text-color);
+}
+.option:nth-child(2) {
+    color: var(--light-text-color);
+}
+.option:nth-child(3) {
+    color: var(--light-text-color);
+}
+.option:nth-child(4) {
+    color: var(--light-text-color);
+}
+
+#category-select:has(#options-view-button:checked) + #options {
+    display: block;
+}
+
+/* .select:has(.option input:checked) #category-select label {
+    color: #A881E6;
+} */
+.select:has(.option input:checked) #selected-value {
+    color: var(--light-text-color);
+}
+
+
+
+/************************************************** RADIO ****************************************/
+
+
+
+.radio {
+    margin: .5rem auto;
+}
+
+#diet_options {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    margin-top:.25rem;
+}
+
+.diet_option {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    padding: .75rem;
+    width: max-content;
+
+    position: relative;
+
+    background-color: var(--select-button);
+    border-radius:.375rem;
+
+    padding: 10px 20px;
+    border-radius: .5rem;
+    border: 1px solid transparent;
+    font-size: 15px;
+    outline: none;
+}
+
+.diet_option .diet-label {
+    color: var(--light-text-color);
+}
+
+.diet_option svg {
+    width: 1rem;
+    height: 1rem;
+}
+.diet_option svg:last-child {
+    margin-left: auto;
+    color: var(--light-text-color);
+    display: none;
+}
+
+.diet_option:has(input:checked),
+.diet_option:hover {
+    border-bottom: 1px solid var(--select-button-hover);
+    background-color: var(--select-button-hover);
+}
+.diet_option:has(input:focus) {
+    outline: 1px solid var(--select-button);
+}
+
+.diet_option:has(input:checked) [data-lucide="check"]{
+    display: block;
+}
+
+.diet_option input[type="radio"]{
+    all: unset;
+
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+}
+
+.diet_option:nth-child(1) {
+    color: var(--light-text-color);
+}
+.diet_option:nth-child(2) {
+    color: var(--light-text-color);
+}
+.diet_option:nth-child(3) {
+    color: var(--light-text-color);
+}

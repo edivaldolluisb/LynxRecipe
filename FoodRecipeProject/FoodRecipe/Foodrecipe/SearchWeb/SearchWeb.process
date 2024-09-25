@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/webscrap.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" xmlns:ns="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/web.xsd" xmlns:pfx3="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/webscrapresponse.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.tibco.com/pe/EngineTypes">
+    <xsd:import namespace="http://www.tibco.com/schemas/FoodRecipe/SharedResources/Schemas/webscrap.xsd" schemaLocation="/SharedResources/Schemas/webscrap.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/webscrapresponse.xsd" schemaLocation="/SharedResources/Schemas/webscrapresponse.xsd"/>
+    <pd:name>Foodrecipe/SearchWeb/SearchWeb.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="input">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="search_term" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <output>
+            <pfx2:recipes>
+                <xsl:for-each select="$Parse-XML/recipes/recipe">
+                    <pfx2:recipe>
+                        <pfx2:title>
+                            <xsl:value-of select="title"/>
+                        </pfx2:title>
+                        <pfx2:description>
+                            <xsl:value-of select="description"/>
+                        </pfx2:description>
+                        <pfx2:link>
+                            <xsl:value-of select="link"/>
+                        </pfx2:link>
+                        <pfx2:image>
+                            <xsl:value-of select="image"/>
+                        </pfx2:image>
+                        <xsl:for-each select="ingredients">
+                            <pfx2:ingredients>
+                                <xsl:for-each select="ingredient">
+                                    <pfx2:ingredient>
+                                        <xsl:value-of select="."/>
+                                    </pfx2:ingredient>
+                                </xsl:for-each>
+                            </pfx2:ingredients>
+                        </xsl:for-each>
+                    </pfx2:recipe>
+                </xsl:for-each>
+            </pfx2:recipes>
+            <xsl:choose>
+                <xsl:when test="$_error/ns1:ErrorReport/Msg">
+                    <message>
+                        <microServiceType>
+                            <xsl:value-of select="'Search Web'"/>
+                        </microServiceType>
+                        <message>
+                            <xsl:value-of select="concat('Error searching on web  you got:  ', $_error/ns1:ErrorReport/Msg)"/>
+                        </message>
+                        <sucess>
+                            <xsl:value-of select="0"/>
+                        </sucess>
+                    </message>
+                </xsl:when>
+                <xsl:otherwise>
+                    <message>
+                        <microServiceType>
+                            <xsl:value-of select="'Search Web'"/>
+                        </microServiceType>
+                        <message>
+                            <xsl:value-of select="'Web Search completed with sucess'"/>
+                        </message>
+                        <sucess>
+                            <xsl:value-of select="1"/>
+                        </sucess>
+                    </message>
+                </xsl:otherwise>
+            </xsl:choose>
+        </output>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="output">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx:recipes"/>
+                    <xsd:element name="message">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="microServiceType" type="xsd:string"/>
+                                <xsd:element name="message" type="xsd:string"/>
+                                <xsd:element name="sucess" type="xsd:int"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>548</pd:endX>
+    <pd:endY>62</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1723578955478</pd:targetNamespace>
+    <pd:activity name="Java Code">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>271</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <fileName>SearchWebJavaCode</fileName>
+            <packageName>Foodrecipe.SearchWeb.SearchWeb</packageName>
+            <fullsource>package Foodrecipe.SearchWeb.SearchWeb;
+import java.util.*;
+import java.io.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class SearchWebJavaCode{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String query = "";
+	protected String json_structure = "";
+	public String getquery() {
+		return query;
+	}
+	public void setquery(String val) {
+		query = val;
+	}
+	public String getjson_structure() {
+		return json_structure;
+	}
+	public void setjson_structure(String val) {
+		json_structure = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public SearchWebJavaCode() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String query
+	Out : String json_structure
+* Available Variables: DO NOT MODIFY *****/
+
+	 json_structure = getRecipe(query);
+
+
+ 
+}
+   public static List&lt;String&gt; searchForRecipes(String query) {
+      List&lt;String&gt; recipes = new ArrayList&lt;&gt;();
+      String url = "https://www.epicurious.com/search?q=" + query + "&amp;sort=score&amp;page=1&amp;content=recipe";
+
+      try {
+         Document document = Jsoup.connect(url).get();
+         Elements recipeElements = document.select(".StackedRatingsCardWrapper-fRZEyp");
+         for (Element recipeElement : recipeElements) {
+            try {
+               String title = recipeElement.select("h2").text();
+               String description = recipeElement.select(".ClampContent-hilPkr &gt; div").text();
+               String link = recipeElement.select(".BaseLink-eNWuiM").attr("href");
+               String image = recipeElement.select("img").attr("src");
+               StringBuilder ingredientsList = new StringBuilder();
+
+               // visit the recipe page and get the ingredients
+               try {
+                  Document recipePage = Jsoup.connect("https://www.epicurious.com" + link).get();
+                  Elements ingredients = recipePage.select(".List-iSNGTT");
+                  // System.out.println("Ingredients: ");
+                  for (Element ingredient : ingredients) {
+                     ingredientsList.append("&lt;ingredient&gt;").append(ingredient.text()).append("&lt;/ingredient&gt;\n");
+                     // System.out.println(ingredient.text());
+                  }
+		Elements preparation = recipePage.select("[class^=\"InstructionsWrapper-\"]");
+		description = preparation.text();
+               } catch (Exception e) {
+                  // skip the recipe if there is an error
+                  // System.out.println("Ingredients: No ingredients list");
+                  ingredientsList.append("&lt;ingredient&gt;No ingredients list&lt;/ingredient&gt;\n");
+               }
+
+               // save in a string in json format
+               String xmlStructure = "&lt;recipe&gt;" +
+                     "  &lt;title&gt;" + title + "&lt;/title&gt;" +
+                     "  &lt;description&gt;" + description + "&lt;/description&gt;" +
+                     "  &lt;link&gt;https://www.epicurious.com" + link + "&lt;/link&gt;" +
+                     "  &lt;image&gt;" + image + "&lt;/image&gt;" +
+                     "  &lt;ingredients&gt;" + ingredientsList.toString() + "&lt;/ingredients&gt;" +
+                     "&lt;/recipe&gt;";
+
+               recipes.add(xmlStructure);
+            } catch (Exception e) {
+               recipes.add("&lt;title&gt;No recipes found, try another recipe!&lt;/title&gt;");
+            }
+         }
+      } catch (Exception e) {
+         recipes.add("&lt;title&gt;Error searching for recipes&lt;/title&gt;");
+      }
+
+      return recipes;
+   }
+
+   public static String getRecipe(String query) {
+      List&lt;String&gt; recipes = searchForRecipes(query);
+      StringBuilder xmlStructure = new StringBuilder("&lt;recipes&gt;");
+      for (String recipe : recipes) {
+         xmlStructure.append(recipe);
+      }
+      xmlStructure.append("&lt;/recipes&gt;");
+      return xmlStructure.toString();
+   }
+}
+</fullsource>
+            <inputData>
+                <row>
+                    <fieldName>query</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>required</fieldRequired>
+                </row>
+            </inputData>
+            <outputData>
+                <row>
+                    <fieldName>json_structure</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>required</fieldRequired>
+                </row>
+            </outputData>
+            <byteCode>
+                <class>
+                    <name>SearchWebJavaCode</name>
+                    <byteCode>yv66vgAAADQAswkAOwBdCQA7AF4KADwAXwgAYAoAOwBhBwBiCgAGAF8HAGMKAAgAXwgAZAoACABlCABmCgAIAGcKAGgAaQsAagBrCABsCgBtAG4KAG8AcAsAcQByCwBxAHMHAHQIAHUKABUAbgoAbwB2CAB3CAB4CAB5CgBvAHoIAHsIAHwIAH0IAH4IAH8KABUAdggAgAgAgQcAgggAgwgAhAgAhQgAhggAhwgAiAgAiQgAiggAiwgAjAgAjQgAjgsAjwCQCACRCACSCgA7AJMIAJQKAAgAlQsAjwBwBwCWCACXBwCYBwCZAQAFcXVlcnkBABJMamF2YS9sYW5nL1N0cmluZzsBAA5qc29uX3N0cnVjdHVyZQEACGdldHF1ZXJ5AQAUKClMamF2YS9sYW5nL1N0cmluZzsBAARDb2RlAQAPTGluZU51bWJlclRhYmxlAQAIc2V0cXVlcnkBABUoTGphdmEvbGFuZy9TdHJpbmc7KVYBABFnZXRqc29uX3N0cnVjdHVyZQEAEXNldGpzb25fc3RydWN0dXJlAQAGPGluaXQ+AQADKClWAQAGaW52b2tlAQAKRXhjZXB0aW9ucwEAEHNlYXJjaEZvclJlY2lwZXMBACQoTGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL3V0aWwvTGlzdDsBAA1TdGFja01hcFRhYmxlBwCWBwCaBwCbBwCcBwCdBwB0BwBjBwCCAQAJU2lnbmF0dXJlAQA4KExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS91dGlsL0xpc3Q8TGphdmEvbGFuZy9TdHJpbmc7PjsBAAlnZXRSZWNpcGUBACYoTGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL2xhbmcvU3RyaW5nOwEAClNvdXJjZUZpbGUBABZTZWFyY2hXZWJKYXZhQ29kZS5qYXZhDAA9AD4MAD8APgwASABJAQAADABZAFoBABNqYXZhL3V0aWwvQXJyYXlMaXN0AQAXamF2YS9sYW5nL1N0cmluZ0J1aWxkZXIBACRodHRwczovL3d3dy5lcGljdXJpb3VzLmNvbS9zZWFyY2g/cT0MAJ4AnwEAISZzb3J0PXNjb3JlJnBhZ2U9MSZjb250ZW50PXJlY2lwZQwAoABBBwChDACiAKMHAKQMAKUApgEAIS5TdGFja2VkUmF0aW5nc0NhcmRXcmFwcGVyLWZSWkV5cAcAmwwApwCoBwCcDACpAKoHAJ0MAKsArAwArQCuAQAXb3JnL2pzb3VwL25vZGVzL0VsZW1lbnQBAAJoMgwArwBBAQAaLkNsYW1wQ29udGVudC1oaWxQa3IgPiBkaXYBABAuQmFzZUxpbmstZU5XdWlNAQAEaHJlZgwAsABaAQADaW1nAQADc3JjAQAaaHR0cHM6Ly93d3cuZXBpY3VyaW91cy5jb20BAAwuTGlzdC1pU05HVFQBAAw8aW5ncmVkaWVudD4BAA48L2luZ3JlZGllbnQ+CgEAH1tjbGFzc149Ikluc3RydWN0aW9uc1dyYXBwZXItIl0BABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAtPGluZ3JlZGllbnQ+Tm8gaW5ncmVkaWVudHMgbGlzdDwvaW5ncmVkaWVudD4KAQARPHJlY2lwZT4gIDx0aXRsZT4BAAg8L3RpdGxlPgEADyAgPGRlc2NyaXB0aW9uPgEADjwvZGVzY3JpcHRpb24+AQAiICA8bGluaz5odHRwczovL3d3dy5lcGljdXJpb3VzLmNvbQEABzwvbGluaz4BAAkgIDxpbWFnZT4BAAg8L2ltYWdlPgEADyAgPGluZ3JlZGllbnRzPgEADjwvaW5ncmVkaWVudHM+AQAJPC9yZWNpcGU+BwCaDACxALIBADQ8dGl0bGU+Tm8gcmVjaXBlcyBmb3VuZCwgdHJ5IGFub3RoZXIgcmVjaXBlITwvdGl0bGU+AQAqPHRpdGxlPkVycm9yIHNlYXJjaGluZyBmb3IgcmVjaXBlczwvdGl0bGU+DABMAE0BAAk8cmVjaXBlcz4MAEgARQEAEGphdmEvbGFuZy9TdHJpbmcBAAo8L3JlY2lwZXM+AQAwRm9vZHJlY2lwZS9TZWFyY2hXZWIvU2VhcmNoV2ViL1NlYXJjaFdlYkphdmFDb2RlAQAQamF2YS9sYW5nL09iamVjdAEADmphdmEvdXRpbC9MaXN0AQAYb3JnL2pzb3VwL25vZGVzL0RvY3VtZW50AQAZb3JnL2pzb3VwL3NlbGVjdC9FbGVtZW50cwEAEmphdmEvdXRpbC9JdGVyYXRvcgEABmFwcGVuZAEALShMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9TdHJpbmdCdWlsZGVy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</byteCode>
+                </class>
+            </byteCode>
+        </config>
+        <pd:inputBindings>
+            <javaCodeActivityInput>
+                <query>
+                    <xsl:value-of select="$Start/input/search_term"/>
+                </query>
+            </javaCodeActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>418</pd:x>
+        <pd:y>62</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term ref="pfx3:recipes"/>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Java-Code/javaCodeActivityOutput/json_structure"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>548</pd:x>
+        <pd:y>244</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Java Code</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Java Code</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
