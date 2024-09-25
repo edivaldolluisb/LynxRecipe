@@ -88,6 +88,50 @@ Returns a list of all stored recipes
 - Update a certain recipe
 - Delete a recipe
 - web search, to search for a certain on the web, based on a name
+
+## SQL Reference
+
+### recipe table
+
+```sql
+CREATE TABLE IF NOT EXISTS RECIPE (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_name VARCHAR(255) NOT NULL,
+    recipe_number INT UNIQUE,    
+    ingredient VARCHAR(1000),
+    preparation VARCHAR(2000),
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    image_url VARCHAR(1000),
+    recipe_link VARCHAR(1000),
+    calories INT DEFAULT 0,
+    dish_type ENUM('Starter', 'Main dish', 'Dessert') NOT NULL,
+    diet_type ENUM('Fish', 'Meat', 'Vegetarian', 'Vegan') NOT NULL
+);
+
+DELIMITER //
+
+CREATE TRIGGER before_insert_recipe
+BEFORE INSERT ON RECIPE
+FOR EACH ROW
+BEGIN
+    SET NEW.recipe_number = (SELECT IFNULL(MAX(recipe_number), 99) + 1 FROM RECIPE);
+END; //
+
+DELIMITER ;
+```
+### recipe table
+
+```sql
+CREATE TABLE IF NOT EXISTS SOAP_REQUEST_LOG (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    action_type VARCHAR(255) NOT NULL,
+    success BOOLEAN NOT NULL,
+    request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    response_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    response_message TEXT
+);
+```
+
 ## TIBCO processes
 
 ![project](https://github.com/edivaldolluisb/LynxRecipe/blob/main/screenshots/project.png?raw=true)
