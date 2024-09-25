@@ -148,6 +148,9 @@ CREATE TABLE IF NOT EXISTS SOAP_REQUEST_LOG (
 # register page
 ![project register page](https://github.com/edivaldolluisb/LynxRecipe/blob/main/screenshots/register.png?raw=true)
 
+# see recipe page
+![project register page](https://github.com/edivaldolluisb/LynxRecipe/blob/main/screenshots/see_recipe.jpeg?raw=true)
+
 # websearch page
 ![websearch result](https://github.com/edivaldolluisb/LynxRecipe/blob/main/screenshots/websearch.png?raw=true)
 ## Authors
