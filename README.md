@@ -119,7 +119,7 @@ END; //
 
 DELIMITER ;
 ```
-### recipe table
+### request table
 
 ```sql
 CREATE TABLE IF NOT EXISTS SOAP_REQUEST_LOG (
